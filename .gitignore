@@ -1,0 +1,9 @@
+# Ignorar directorio node_modules
+node_modules/
+
+# Ignorar los módulos de NPM
+npm-debug.log
+
+# Ignorar módulos de Yarn
+yarn-error.log
+yarn.lock
