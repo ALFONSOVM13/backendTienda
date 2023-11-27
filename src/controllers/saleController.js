@@ -2,7 +2,7 @@ const db = require('../../db');
 
 
 const getAllVentas = (req, res) => {
-    db.query('SELECT * FROM Ventas', (err, ventas) => {
+    db.query('SELECT * FROM ventas', (err, ventas) => {
         if (err) {
             console.error('Error al obtener las ventas:', err);
             return res.status(500).json({ message: 'Error interno del servidor' });
@@ -43,7 +43,7 @@ const getVentaByCodigo = (req, res) => {
 const createVenta = (req, res) => {
     const { CodigoProducto, CedulaCliente, CantidadVendida } = req.body;
 
-    db.query('SELECT * FROM Productos WHERE Codigo = ?', [CodigoProducto], (err, producto) => {
+    db.query('SELECT * FROM productos WHERE Codigo = ?', [CodigoProducto], (err, producto) => {
         if (err) {
             console.error('Error al obtener el producto:', err);
             return res.status(500).json({ message: 'Error interno del servidor' });
@@ -68,7 +68,7 @@ const createVenta = (req, res) => {
 
         // Realizar la inserción de la venta en la tabla Ventas
         db.query(
-            'INSERT INTO Ventas (CedulaCliente, CodigoProducto, FechaVenta, CantidadVendida) VALUES (?, ?, CURDATE(), ?)',
+            'INSERT INTO ventas (CedulaCliente, CodigoProducto, FechaVenta, CantidadVendida) VALUES (?, ?, CURDATE(), ?)',
             [CedulaCliente, CodigoProducto, CantidadVendida],
             (err, result) => {
                 if (err) {
@@ -80,7 +80,7 @@ const createVenta = (req, res) => {
 
                 // Actualizar la cantidad en stock en la tabla Productos
                 db.query(
-                    'UPDATE Productos SET CantidadStock = CantidadStock - ? WHERE Codigo = ?',
+                    'UPDATE productos SET CantidadStock = CantidadStock - ? WHERE Codigo = ?',
                     [CantidadVendida, CodigoProducto],
                     (err) => {
                         if (err) {
@@ -89,7 +89,7 @@ const createVenta = (req, res) => {
                         }
 
                         // Obtener la información de la venta recién insertada
-                        db.query('SELECT * FROM Ventas WHERE IDVenta = ?', [ventaId], (err, venta) => {
+                        db.query('SELECT * FROM ventas WHERE IDVenta = ?', [ventaId], (err, venta) => {
                             if (err) {
                                 console.error('Error al obtener la venta:', err);
                                 return res.status(500).json({ message: 'Error interno del servidor' });
@@ -111,7 +111,7 @@ const updateVentaByCodigo = (req, res) => {
     const IDVenta = req.params.codigo;
     const { CantidadVendida } = req.body;
 
-    db.query('SELECT * FROM Ventas WHERE IDVenta = ?', [IDVenta], (err, venta) => {
+    db.query('SELECT * FROM ventas WHERE IDVenta = ?', [IDVenta], (err, venta) => {
         if (err) {
             console.error('Error al obtener la venta:', err);
             return res.status(500).json({ message: 'Error interno del servidor' });
@@ -128,7 +128,7 @@ const updateVentaByCodigo = (req, res) => {
         }
 
         db.query(
-            'UPDATE Ventas SET CantidadVendida = ? WHERE IDVenta = ?',
+            'UPDATE ventas SET CantidadVendida = ? WHERE IDVenta = ?',
             [nuevaCantidadTotal, IDVenta],
             (err) => {
                 if (err) {

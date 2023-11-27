@@ -2,7 +2,7 @@ const db = require('../../db.js');
 
 
 const getProductos = (req, res) => {
-    db.query('SELECT * FROM Productos', (err, results) => {
+    db.query('SELECT * FROM productos', (err, results) => {
         if (err) {
             console.error('Error al obtener los productos:', err);
             res.status(500).send('Error interno del servidor');
@@ -14,7 +14,7 @@ const getProductos = (req, res) => {
 
 const getProductoByCodigo = (req, res) => {
     const Codigo = req.params.codigo;
-    db.query('SELECT * FROM Productos WHERE Codigo = ?', [Codigo], (err, results) => {
+    db.query('SELECT * FROM productos WHERE Codigo = ?', [Codigo], (err, results) => {
         if (err) {
             console.error('Error al obtener el producto:', err);
             res.status(500).send('Error interno del servidor');
@@ -29,7 +29,7 @@ const createProducto = (req, res) => {
     const { Nombre, Descripcion, Precio, CantidadStock } = req.body;
     console.log('Datos recibidos del front-end:', req.body); 
     db.query(
-        'INSERT INTO Productos (Nombre, Descripcion, Precio, CantidadStock) VALUES (?, ?, ?, ?)',
+        'INSERT INTO productos (Nombre, Descripcion, Precio, CantidadStock) VALUES (?, ?, ?, ?)',
         [Nombre, Descripcion, Precio, CantidadStock],
         (err, results) => {
             if (err) {
@@ -37,7 +37,7 @@ const createProducto = (req, res) => {
                 res.status(500).json({ error: 'Error interno del servidor' });
             } else {
                 const productId = results.insertId;
-                db.query('SELECT * FROM Productos WHERE Codigo = ?', [productId], (err, product) => {
+                db.query('SELECT * FROM productos WHERE Codigo = ?', [productId], (err, product) => {
                     if (err) {
                         console.error('Error al obtener el producto:', err);
                         res.status(500).json({ error: 'Error interno del servidor' });
@@ -56,7 +56,7 @@ const updateProducto = (req, res) => {
     const updatedFields = req.body; 
 
     // Verificar si el producto existe antes de intentar actualizarlo
-    db.query('SELECT * FROM Productos WHERE Codigo = ?', [codigo], (err, result) => {
+    db.query('SELECT * FROM productos WHERE Codigo = ?', [codigo], (err, result) => {
         if (err) {
             console.error('Error al buscar el producto:', err);
             res.status(500).json({ error: 'Error interno del servidor' });
@@ -74,7 +74,7 @@ const updateProducto = (req, res) => {
 
                 valuesToUpdate.push(codigo); 
 
-                const updateQuery = `UPDATE Productos SET ${fieldsToUpdate.join(', ')} WHERE Codigo = ?`;
+                const updateQuery = `UPDATE productos SET ${fieldsToUpdate.join(', ')} WHERE Codigo = ?`;
 
                 // Ejecutar la consulta de actualización
                 db.query(updateQuery, valuesToUpdate, (err, updateResult) => {
@@ -84,7 +84,7 @@ const updateProducto = (req, res) => {
                     } else {
                         if (updateResult.affectedRows > 0) {
                             // Consulta el producto actualizado después de la actualización
-                            db.query('SELECT * FROM Productos WHERE Codigo = ?', [codigo], (err, updatedProduct) => {
+                            db.query('SELECT * FROM productos WHERE Codigo = ?', [codigo], (err, updatedProduct) => {
                                 if (err) {
                                     console.error('Error al obtener el producto actualizado:', err);
                                     res.status(500).json({ error: 'Error interno del servidor' });
@@ -108,7 +108,7 @@ const deleteProducto = (req, res) => {
     const codigo = req.params.codigo; // Suponiendo que utilizas el código para identificar el producto a eliminar
 
     // Realizar la consulta SQL para eliminar el producto
-    db.query('DELETE FROM Productos WHERE Codigo = ?', [codigo], (err, result) => {
+    db.query('DELETE FROM productos WHERE Codigo = ?', [codigo], (err, result) => {
         if (err) {
             console.error('Error al eliminar el producto:', err);
             res.status(500).send('Producto asociado a una venta');
