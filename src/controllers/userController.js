@@ -134,7 +134,7 @@ const updateUserRole = (req, res) => {
 const getUserByUsername = (Username) => {
     console.log('Parámetro del username:', Username);
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM Users WHERE Username = ?', [Username], (err, results) => {
+        db.query('SELECT * FROM users WHERE Username = ?', [Username], (err, results) => {
             if (err) {
                 reject(err);
             } else {
