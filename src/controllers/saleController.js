@@ -145,7 +145,7 @@ const updateVentaByCodigo = (req, res) => {
 const deleteVentaByCodigo = (req, res) => {
     const IDVenta = req.params.codigo;
 
-    db.query('DELETE FROM Ventas WHERE IDVenta = ?', [IDVenta], (err, result) => {
+    db.query('DELETE FROM ventas WHERE IDVenta = ?', [IDVenta], (err, result) => {
         if (err) {
             console.error('Error al eliminar la venta:', err);
             return res.status(500).json({ message: 'Error interno del servidor' });

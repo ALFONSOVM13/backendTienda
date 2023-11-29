@@ -76,7 +76,6 @@ const updateProducto = (req, res) => {
 
                 const updateQuery = `UPDATE productos SET ${fieldsToUpdate.join(', ')} WHERE Codigo = ?`;
 
-                // Ejecutar la consulta de actualización
                 db.query(updateQuery, valuesToUpdate, (err, updateResult) => {
                     if (err) {
                         console.error('Error al actualizar el producto:', err);
@@ -107,7 +106,6 @@ const updateProducto = (req, res) => {
 const deleteProducto = (req, res) => {
     const codigo = req.params.codigo;
 
-    // Realizar la consulta SQL para eliminar el producto
     db.query('DELETE FROM productos WHERE Codigo = ?', [codigo], (err, result) => {
         if (err) {
             console.error('Error al eliminar el producto:', err);

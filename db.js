@@ -9,13 +9,21 @@ const pool = createPool({
     port: '41598'
 });
 
+// const pool = createPool({
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'Ares1781',
+//     database: 'api',
+//     port: '3306'
+// });
+
 // Exportar el pool para su uso en otros archivos
 module.exports = {
     query: (sql, values, callback) => {
         pool.query(sql, values, (err, rows) => {
             if (err) {
                 console.error('Error en la consulta:', err);
-                return callback(err, null); 
+                return callback(err, null);
             }
             callback(null, rows);
         });
