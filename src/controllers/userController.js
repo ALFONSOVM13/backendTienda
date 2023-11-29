@@ -178,7 +178,7 @@ const getUserInfo = (req, res) => {
     const userId = req.user.id;
 
     // Consulta la base de datos para obtener los detalles del usuario
-    db.query('SELECT id,Username,Password,Cedula, FirstName, LastName, Email,Phone,Role FROM users WHERE id = ?', [userId], (err, results) => {
+    db.query('SELECT id,Username,Cedula, FirstName, LastName, Email,Phone,Role FROM users WHERE id = ?', [userId], (err, results) => {
         if (err) {
             console.error('Error al obtener la información del usuario desde la base de datos:', err);
             res.status(500).json({ error: 'Error interno del servidor' });

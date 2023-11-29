@@ -105,7 +105,7 @@ const updateProducto = (req, res) => {
 
 
 const deleteProducto = (req, res) => {
-    const codigo = req.params.codigo; // Suponiendo que utilizas el código para identificar el producto a eliminar
+    const codigo = req.params.codigo;
 
     // Realizar la consulta SQL para eliminar el producto
     db.query('DELETE FROM productos WHERE Codigo = ?', [codigo], (err, result) => {

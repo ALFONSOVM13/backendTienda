@@ -167,5 +167,6 @@ module.exports = {
     getAllVentas,
     getVentaByCodigo,
     updateVentaByCodigo,
+    deleteVentaByCodigo,
     deleteVentaByCodigo
 };
