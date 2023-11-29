@@ -30,7 +30,6 @@ const getVentaByCodigo = (req, res) => {
         const precioUnitario = producto.Precio; 
         const totalVenta = cantidadVendida * precioUnitario;
 
-        // Agregar el campo de TotalVenta al resultado de la consulta
         venta[0].TotalVenta = totalVenta;
 
         res.json(venta[0]);
@@ -88,7 +87,6 @@ const createVenta = (req, res) => {
                             return res.status(500).json({ message: 'Error interno del servidor' });
                         }
 
-                        // Obtener la información de la venta recién insertada
                         db.query('SELECT * FROM ventas WHERE IDVenta = ?', [ventaId], (err, venta) => {
                             if (err) {
                                 console.error('Error al obtener la venta:', err);
