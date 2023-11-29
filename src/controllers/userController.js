@@ -110,7 +110,7 @@ const getUsers = (req, res) => {
 };
 const updateUserRole = (req, res) => {
     const userId = req.params.userId;
-    const newRole = req.body.role; // Suponiendo que el nuevo rol se envía en el cuerpo de la solicitud
+    const newRole = req.body.role; 
 
     if (!userId || !newRole) {
         return res.status(400).json({ error: 'Faltan parámetros' });
@@ -234,24 +234,21 @@ const changePassword = async (req, res) => {
     const userId = req.params.userId;
 
     try {
-        // Obtener el usuario correspondiente al ID proporcionado desde la base de datos
+        
         const user = await getUserById(userId);
 
         if (!user) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
 
-        // Verificar si la contraseña actual proporcionada coincide con la almacenada en la base de datos del usuario obtenido
         const isPasswordMatch = await bcrypt.compare(currentPassword, user.Password);
 
         if (!isPasswordMatch) {
             return res.status(401).json({ error: 'Contraseña actual incorrecta' });
         }
 
-        // Hash de la nueva contraseña
         const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
-        // Actualizar la contraseña en la base de datos
         const updateUserPasswordQuery = `
             UPDATE users 
             SET Password = ?
@@ -264,7 +261,6 @@ const changePassword = async (req, res) => {
         ];
 
         try {
-            // Ejecutar la consulta de actualización dentro de un bloque try/catch
             db.query(updateUserPasswordQuery, updateValues, (error, results) => {
                 if (error) {
                     console.error('Error al cambiar la contraseña:', error);
