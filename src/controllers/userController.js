@@ -57,7 +57,7 @@ const loginUser = async (req, res) => {
         const user = await getUserByUsername(Username);
 
         if (user && await bcrypt.compare(Password, user.Password)) {
-            const token = generateToken(user.ID, user.Username);
+            const token = generateToken(user.ID, user.Username, user.Role);
 
             res.cookie('token', token, { httpOnly: true });
 
@@ -210,15 +210,15 @@ const getUserById = async (userId) => {
             db.query(sql, values, (err, rows) => {
                 if (err) {
                     console.error('Error en la consulta:', err);
-                    reject(err); // Rechazar la promesa en caso de error
+                    reject(err); 
                 } else {
                     if (rows && rows.length > 0) {
                         const user = rows[0];
                         console.log('Usuario encontrado:', user);
-                        resolve(user); // Resolver la promesa con el usuario encontrado
+                        resolve(user); 
                     } else {
                         console.log('Usuario no encontrado');
-                        resolve(null); // Resolver la promesa con null si el usuario no se encuentra
+                        resolve(null); 
                     }
                 }
             });
@@ -284,8 +284,8 @@ const changePassword = async (req, res) => {
 };
 
 
-const generateToken = (userId, username, role) => {
-    return jwt.sign({ id: userId, username, role }, secret, { expiresIn: '15m' });
+const generateToken = (userId, username, Role) => {
+    return jwt.sign({ id: userId, username, Role }, secret, { expiresIn: '30m' });
 };
 module.exports = {
     authenticateToken,
